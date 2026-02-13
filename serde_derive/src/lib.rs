@@ -77,8 +77,8 @@ mod internals;
 use proc_macro::TokenStream;
 use proc_macro2::{Ident, Span};
 use quote::{ToTokens, TokenStreamExt as _};
-use syn::parse_macro_input;
 use syn::DeriveInput;
+use syn::parse_macro_input;
 
 #[macro_use]
 mod bound;

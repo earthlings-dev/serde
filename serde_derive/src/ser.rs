@@ -2,12 +2,12 @@ use crate::deprecated::allow_deprecated;
 use crate::fragment::{Fragment, Match, Stmts};
 use crate::internals::ast::{Container, Data, Field, Style, Variant};
 use crate::internals::name::Name;
-use crate::internals::{attr, replace_receiver, Ctxt, Derive};
+use crate::internals::{Ctxt, Derive, attr, replace_receiver};
 use crate::{bound, dummy, pretend, private, this};
 use proc_macro2::{Span, TokenStream};
 use quote::{quote, quote_spanned};
 use syn::spanned::Spanned;
-use syn::{parse_quote, Ident, Index, Member};
+use syn::{Ident, Index, Member, parse_quote};
 
 pub fn expand_derive_serialize(input: &mut syn::DeriveInput) -> syn::Result<TokenStream> {
     replace_receiver(input);
@@ -160,7 +160,7 @@ fn needs_serialize_bound(field: &attr::Field, variant: Option<&attr::Variant>) -
     !field.skip_serializing()
         && field.serialize_with().is_none()
         && field.ser_bound().is_none()
-        && variant.map_or(true, |variant| {
+        && variant.is_none_or(|variant| {
             !variant.skip_serializing()
                 && variant.serialize_with().is_none()
                 && variant.ser_bound().is_none()
@@ -1268,11 +1268,7 @@ fn wrap_serialize_with(
 //
 // where we want to omit the `mut` to avoid a warning.
 fn mut_if(is_mut: bool) -> Option<TokenStream> {
-    if is_mut {
-        Some(quote!(mut))
-    } else {
-        None
-    }
+    if is_mut { Some(quote!(mut)) } else { None }
 }
 
 fn get_member(params: &Parameters, field: &Field, member: &Member) -> TokenStream {

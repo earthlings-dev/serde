@@ -1,6 +1,6 @@
 use crate::internals::ast::{Container, Data, Field, Style};
 use crate::internals::attr::{Default, Identifier, TagType};
-use crate::internals::{ungroup, Ctxt, Derive};
+use crate::internals::{Ctxt, Derive, ungroup};
 use syn::{Member, Type};
 
 // Cross-cutting checks that require looking at more than a single attrs object.
@@ -25,27 +25,27 @@ pub fn check(cx: &Ctxt, cont: &mut Container, derive: Derive) {
 // all subsequent fields will fail to deserialize if they don't have their own
 // default.
 fn check_default_on_tuple(cx: &Ctxt, cont: &Container) {
-    if let Default::None = cont.attrs.default() {
-        if let Data::Struct(Style::Tuple, fields) = &cont.data {
-            let mut first_default_index = None;
-            for (i, field) in fields.iter().enumerate() {
-                // Skipped fields automatically get the #[serde(default)]
-                // attribute. We are interested only on non-skipped fields here.
-                if field.attrs.skip_deserializing() {
-                    continue;
-                }
-                if let Default::None = field.attrs.default() {
-                    if let Some(first) = first_default_index {
-                        cx.error_spanned_by(
+    if let Default::None = cont.attrs.default()
+        && let Data::Struct(Style::Tuple, fields) = &cont.data
+    {
+        let mut first_default_index = None;
+        for (i, field) in fields.iter().enumerate() {
+            // Skipped fields automatically get the #[serde(default)]
+            // attribute. We are interested only on non-skipped fields here.
+            if field.attrs.skip_deserializing() {
+                continue;
+            }
+            if let Default::None = field.attrs.default() {
+                if let Some(first) = first_default_index {
+                    cx.error_spanned_by(
                             field.ty,
                             format!("field must have #[serde(default)] because previous field {} has #[serde(default)]", first),
                         );
-                    }
-                    continue;
                 }
-                if first_default_index.is_none() {
-                    first_default_index = Some(i);
-                }
+                continue;
+            }
+            if first_default_index.is_none() {
+                first_default_index = Some(i);
             }
         }
     }
@@ -453,12 +453,11 @@ fn member_message(member: &Member) -> String {
 }
 
 fn allow_transparent(field: &Field, derive: Derive) -> bool {
-    if let Type::Path(ty) = ungroup(field.ty) {
-        if let Some(seg) = ty.path.segments.last() {
-            if seg.ident == "PhantomData" {
-                return false;
-            }
-        }
+    if let Type::Path(ty) = ungroup(field.ty)
+        && let Some(seg) = ty.path.segments.last()
+        && seg.ident == "PhantomData"
+    {
+        return false;
     }
 
     match derive {

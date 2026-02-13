@@ -3,7 +3,7 @@
 use serde::de::value::{self, MapAccessDeserializer};
 use serde::de::{Deserialize, Deserializer, IntoDeserializer, MapAccess, Visitor};
 use serde_derive::Deserialize;
-use serde_test::{assert_de_tokens, Token};
+use serde_test::{Token, assert_de_tokens};
 use std::fmt;
 
 #[test]

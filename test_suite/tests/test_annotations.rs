@@ -14,8 +14,8 @@ use serde::de::{self, Deserialize, Deserializer, IgnoredAny, MapAccess, Unexpect
 use serde::ser::{Serialize, Serializer};
 use serde_derive::{Deserialize, Serialize};
 use serde_test::{
-    assert_de_tokens, assert_de_tokens_error, assert_ser_tokens, assert_ser_tokens_error,
-    assert_tokens, Token,
+    Token, assert_de_tokens, assert_de_tokens_error, assert_ser_tokens, assert_ser_tokens_error,
+    assert_tokens,
 };
 use std::collections::{BTreeMap, HashMap};
 use std::convert::TryFrom;

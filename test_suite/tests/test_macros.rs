@@ -7,7 +7,7 @@
 )]
 
 use serde_derive::{Deserialize, Serialize};
-use serde_test::{assert_de_tokens, assert_ser_tokens, assert_tokens, Token};
+use serde_test::{Token, assert_de_tokens, assert_ser_tokens, assert_tokens};
 use std::marker::PhantomData;
 
 // That tests that the derived Serialize implementation doesn't trigger

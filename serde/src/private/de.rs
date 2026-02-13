@@ -3436,7 +3436,7 @@ fn flat_map_take_entry<'de>(
     // and if the field is one recognized by the current data structure.
     let is_recognized = match entry {
         None => false,
-        Some((k, _v)) => content_as_str(k).map_or(false, |name| recognized.contains(&name)),
+        Some((k, _v)) => content_as_str(k).is_some_and(|name| recognized.contains(&name)),
     };
 
     if is_recognized {

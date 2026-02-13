@@ -7,12 +7,12 @@
 
 use serde::de::{Deserialize, IntoDeserializer};
 use serde_derive::Deserialize;
-use serde_test::{assert_de_tokens_error, Token};
+use serde_test::{Token, assert_de_tokens_error};
 use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 use std::ffi::{CStr, CString};
 use std::num::{
-    NonZeroI128, NonZeroI16, NonZeroI32, NonZeroI64, NonZeroI8, NonZeroIsize, NonZeroU128,
-    NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU8, NonZeroUsize, Wrapping,
+    NonZeroI8, NonZeroI16, NonZeroI32, NonZeroI64, NonZeroI128, NonZeroIsize, NonZeroU8,
+    NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU128, NonZeroUsize, Wrapping,
 };
 use std::time::{Duration, SystemTime};
 
@@ -1182,20 +1182,22 @@ fn test_skip_all_deny_unknown() {
 #[test]
 fn test_unknown_variant() {
     assert_de_tokens_error::<Enum>(
-    &[
-        Token::UnitVariant { name: "Enum", variant: "Foo" },
-    ],
-    "unknown variant `Foo`, expected one of `Unit`, `Simple`, `Seq`, `Map`, `SimpleWithSkipped`",
+        &[Token::UnitVariant {
+            name: "Enum",
+            variant: "Foo",
+        }],
+        "unknown variant `Foo`, expected one of `Unit`, `Simple`, `Seq`, `Map`, `SimpleWithSkipped`",
     );
 }
 
 #[test]
 fn test_enum_skipped_variant() {
     assert_de_tokens_error::<Enum>(
-    &[
-        Token::UnitVariant { name: "Enum", variant: "Skipped" },
-    ],
-    "unknown variant `Skipped`, expected one of `Unit`, `Simple`, `Seq`, `Map`, `SimpleWithSkipped`",
+        &[Token::UnitVariant {
+            name: "Enum",
+            variant: "Skipped",
+        }],
+        "unknown variant `Skipped`, expected one of `Unit`, `Simple`, `Seq`, `Map`, `SimpleWithSkipped`",
     );
 }
 

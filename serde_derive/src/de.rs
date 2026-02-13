@@ -2,15 +2,15 @@ use crate::deprecated::allow_deprecated;
 use crate::fragment::{Expr, Fragment, Stmts};
 use crate::internals::ast::{Container, Data, Field, Style, Variant};
 use crate::internals::name::Name;
-use crate::internals::{attr, replace_receiver, ungroup, Ctxt, Derive};
+use crate::internals::{Ctxt, Derive, attr, replace_receiver, ungroup};
 use crate::{bound, dummy, pretend, private, this};
 use proc_macro2::{Span, TokenStream};
-use quote::{quote, quote_spanned, ToTokens};
+use quote::{ToTokens, quote, quote_spanned};
 use std::collections::BTreeSet;
 use std::ptr;
 use syn::punctuated::Punctuated;
 use syn::spanned::Spanned;
-use syn::{parse_quote, Ident, Index, Member};
+use syn::{Ident, Index, Member, parse_quote};
 
 mod enum_;
 mod enum_adjacently;
@@ -87,15 +87,14 @@ fn precondition(cx: &Ctxt, cont: &Container) {
 }
 
 fn precondition_sized(cx: &Ctxt, cont: &Container) {
-    if let Data::Struct(_, fields) = &cont.data {
-        if let Some(last) = fields.last() {
-            if let syn::Type::Slice(_) = ungroup(last.ty) {
-                cx.error_spanned_by(
-                    cont.original,
-                    "cannot deserialize a dynamically sized struct",
-                );
-            }
-        }
+    if let Data::Struct(_, fields) = &cont.data
+        && let Some(last) = fields.last()
+        && let syn::Type::Slice(_) = ungroup(last.ty)
+    {
+        cx.error_spanned_by(
+            cont.original,
+            "cannot deserialize a dynamically sized struct",
+        );
     }
 }
 
@@ -237,7 +236,7 @@ fn needs_deserialize_bound(field: &attr::Field, variant: Option<&attr::Variant>)
     !field.skip_deserializing()
         && field.deserialize_with().is_none()
         && field.de_bound().is_none()
-        && variant.map_or(true, |variant| {
+        && variant.is_none_or(|variant| {
             !variant.skip_deserializing()
                 && variant.deserialize_with().is_none()
                 && variant.de_bound().is_none()

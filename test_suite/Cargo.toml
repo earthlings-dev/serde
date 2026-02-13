@@ -2,20 +2,21 @@
 name = "serde_test_suite"
 version = "0.0.0"
 authors = ["Erick Tryzelaar <erick.tryzelaar@gmail.com>", "David Tolnay <dtolnay@gmail.com>"]
-edition = "2021"
+edition = "2024"
+rust-version = "1.93.0"
 publish = false
 
 [features]
 unstable = ["serde/unstable"]
 
 [dependencies]
-serde = { path = "../serde" }
+serde = { workspace = true }
 
 [dev-dependencies]
-automod = "1.0.1"
-foldhash = "0.2"
-rustversion = "1.0"
-serde = { path = "../serde", features = ["rc"] }
-serde_derive = { path = "../serde_derive", features = ["deserialize_in_place"] }
-serde_test = "1.0.176"
-trybuild = { version = "1.0.108", features = ["diff"] }
+automod = { workspace = true }
+foldhash = { workspace = true }
+rustversion = { workspace = true }
+serde = { workspace = true, features = ["rc"] }
+serde_derive = { workspace = true, features = ["deserialize_in_place"] }
+serde_test = { workspace = true }
+trybuild = { workspace = true }

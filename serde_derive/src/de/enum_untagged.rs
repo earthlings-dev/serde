@@ -8,7 +8,7 @@
 use crate::de::struct_;
 use crate::de::tuple;
 use crate::de::{
-    effective_style, expr_is_missing, unwrap_to_variant_closure, Parameters, StructForm, TupleForm,
+    Parameters, StructForm, TupleForm, effective_style, expr_is_missing, unwrap_to_variant_closure,
 };
 use crate::fragment::{Expr, Fragment};
 use crate::internals::ast::{Field, Style, Variant};

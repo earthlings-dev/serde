@@ -1,9 +1,9 @@
 //! A Serde ast, parsed from the Syn ast and ready to generate Rust code.
 
-use crate::internals::{attr, check, Ctxt, Derive};
+use crate::internals::{Ctxt, Derive, attr, check};
 use proc_macro2::Ident;
-use syn::punctuated::Punctuated;
 use syn::Token;
+use syn::punctuated::Punctuated;
 
 /// A source data structure annotated with `#[derive(Serialize)]` and/or `#[derive(Deserialize)]`,
 /// parsed into an internal representation.

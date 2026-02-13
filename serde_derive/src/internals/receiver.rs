@@ -3,8 +3,9 @@ use proc_macro2::Span;
 use quote::ToTokens;
 use std::mem;
 use syn::{
-    parse_quote, Data, DeriveInput, Expr, ExprPath, GenericArgument, GenericParam, Generics, Macro,
-    Path, PathArguments, QSelf, ReturnType, Token, Type, TypeParamBound, TypePath, WherePredicate,
+    Data, DeriveInput, Expr, ExprPath, GenericArgument, GenericParam, Generics, Macro, Path,
+    PathArguments, QSelf, ReturnType, Token, Type, TypeParamBound, TypePath, WherePredicate,
+    parse_quote,
 };
 
 pub fn replace_receiver(input: &mut DeriveInput) {
@@ -56,10 +57,11 @@ impl ReplaceReceiver<'_> {
         let self_ty = self.self_ty(path.segments[0].ident.span());
         let variant = mem::replace(path, self_ty.path);
         for segment in &mut path.segments {
-            if let PathArguments::AngleBracketed(bracketed) = &mut segment.arguments {
-                if bracketed.colon2_token.is_none() && !bracketed.args.is_empty() {
-                    bracketed.colon2_token = Some(<Token![::]>::default());
-                }
+            if let PathArguments::AngleBracketed(bracketed) = &mut segment.arguments
+                && bracketed.colon2_token.is_none()
+                && !bracketed.args.is_empty()
+            {
+                bracketed.colon2_token = Some(<Token![::]>::default());
             }
         }
         if variant.segments.len() > 1 {

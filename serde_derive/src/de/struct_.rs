@@ -1,7 +1,7 @@
 use crate::de::identifier;
 use crate::de::{
-    deserialize_seq, expr_is_missing, field_i, has_flatten, wrap_deserialize_field_with,
-    FieldWithAliases, Parameters, StructForm,
+    FieldWithAliases, Parameters, StructForm, deserialize_seq, expr_is_missing, field_i,
+    has_flatten, wrap_deserialize_field_with,
 };
 #[cfg(feature = "deserialize_in_place")]
 use crate::de::{deserialize_seq_in_place, place_lifetime};

@@ -3,7 +3,7 @@ use crate::de::enum_externally;
 use crate::de::enum_internally;
 use crate::de::enum_untagged;
 use crate::de::identifier;
-use crate::de::{field_i, FieldWithAliases, Parameters};
+use crate::de::{FieldWithAliases, Parameters, field_i};
 use crate::fragment::{Expr, Fragment, Stmts};
 use crate::internals::ast::Variant;
 use crate::internals::attr;

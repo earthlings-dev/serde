@@ -1,6 +1,6 @@
 use crate::internals::name::{MultiName, Name};
 use crate::internals::symbol::*;
-use crate::internals::{ungroup, Ctxt};
+use crate::internals::{Ctxt, ungroup};
 use proc_macro2::{Spacing, Span, TokenStream, TokenTree};
 use quote::ToTokens;
 use std::collections::BTreeSet;
@@ -9,7 +9,7 @@ use syn::meta::ParseNestedMeta;
 use syn::parse::ParseStream;
 use syn::punctuated::Punctuated;
 use syn::spanned::Spanned;
-use syn::{token, Ident, Lifetime, Token};
+use syn::{Ident, Lifetime, Token, token};
 
 // This module handles parsing of `#[serde(...)]` attributes. The entrypoints
 // are `attr::Container::from_ast`, `attr::Variant::from_ast`, and
@@ -266,10 +266,10 @@ impl Container {
                 continue;
             }
 
-            if let syn::Meta::List(meta) = &attr.meta {
-                if meta.tokens.is_empty() {
-                    continue;
-                }
+            if let syn::Meta::List(meta) = &attr.meta
+                && meta.tokens.is_empty()
+            {
+                continue;
             }
 
             if let Err(err) = attr.parse_nested_meta(|meta| {
@@ -766,10 +766,10 @@ impl Variant {
                 continue;
             }
 
-            if let syn::Meta::List(meta) = &attr.meta {
-                if meta.tokens.is_empty() {
-                    continue;
-                }
+            if let syn::Meta::List(meta) = &attr.meta
+                && meta.tokens.is_empty()
+            {
+                continue;
             }
 
             if let Err(err) = attr.parse_nested_meta(|meta| {
@@ -1043,20 +1043,19 @@ impl Field {
             },
         };
 
-        if let Some(borrow_attribute) = attrs.and_then(|variant| variant.borrow.as_ref()) {
-            if let Ok(borrowable) = borrowable_lifetimes(cx, &ident, field) {
-                if let Some(lifetimes) = &borrow_attribute.lifetimes {
-                    for lifetime in lifetimes {
-                        if !borrowable.contains(lifetime) {
-                            let msg =
-                                format!("field `{}` does not have lifetime {}", ident, lifetime);
-                            cx.error_spanned_by(field, msg);
-                        }
+        if let Some(borrow_attribute) = attrs.and_then(|variant| variant.borrow.as_ref())
+            && let Ok(borrowable) = borrowable_lifetimes(cx, &ident, field)
+        {
+            if let Some(lifetimes) = &borrow_attribute.lifetimes {
+                for lifetime in lifetimes {
+                    if !borrowable.contains(lifetime) {
+                        let msg = format!("field `{}` does not have lifetime {}", ident, lifetime);
+                        cx.error_spanned_by(field, msg);
                     }
-                    borrowed_lifetimes.set(&borrow_attribute.path, lifetimes.clone());
-                } else {
-                    borrowed_lifetimes.set(&borrow_attribute.path, borrowable);
                 }
+                borrowed_lifetimes.set(&borrow_attribute.path, lifetimes.clone());
+            } else {
+                borrowed_lifetimes.set(&borrow_attribute.path, borrowable);
             }
         }
 
@@ -1065,10 +1064,10 @@ impl Field {
                 continue;
             }
 
-            if let syn::Meta::List(meta) = &attr.meta {
-                if meta.tokens.is_empty() {
-                    continue;
-                }
+            if let syn::Meta::List(meta) = &attr.meta
+                && meta.tokens.is_empty()
+            {
+                continue;
             }
 
             if let Err(err) = attr.parse_nested_meta(|meta| {

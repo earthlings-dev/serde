@@ -250,7 +250,7 @@ macro_rules! crate_root {
         ////////////////////////////////////////////////////////////////////////////////
 
         pub use serde_core::{
-            de, forward_to_deserialize_any, ser, Deserialize, Deserializer, Serialize, Serializer,
+            Deserialize, Deserializer, Serialize, Serializer, de, forward_to_deserialize_any, ser,
         };
 
         // Used by generated code and doc tests. Not public API.

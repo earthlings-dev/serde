@@ -1,4 +1,4 @@
-use crate::de::{deserialize_seq, has_flatten, Parameters, TupleForm};
+use crate::de::{Parameters, TupleForm, deserialize_seq, has_flatten};
 #[cfg(feature = "deserialize_in_place")]
 use crate::de::{deserialize_seq_in_place, place_lifetime};
 use crate::fragment::{Fragment, Stmts};

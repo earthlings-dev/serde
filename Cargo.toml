@@ -8,12 +8,26 @@ members = [
 ]
 resolver = "2"
 
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.93.0"
+
 [patch.crates-io]
 serde = { path = "serde" }
 serde_core = { path = "serde_core" }
 serde_derive = { path = "serde_derive" }
+serde_json = { path = "../json" }
 
 [workspace.dependencies]
-proc-macro2 = { version = "1.0.74", default-features = false }
-quote = { version = "1.0.35", default-features = false }
-syn = { version = "2.0.81", default-features = false }
+automod = { version = "1.0.16" }
+foldhash = { version = "0.2" }
+proc-macro2 = { version = "1.0.106", default-features = false, features = ["proc-macro"] }
+quote = { version = "1.0.44", default-features = false, features = ["proc-macro"] }
+rustversion = { version = "1.0" }
+serde = { version = "1", path = "serde", features = ["rc"] }
+serde_core = { version = "=1.0.228", path = "serde_core", default-features = false, features = ["result"] }
+serde_derive = { version = "=1.0.228", path = "serde_derive", features = ["deserialize_in_place"] }
+serde_test = { version = "1.0.177" }
+syn = { version = "2.0.115", default-features = false, features = ["clone-impls", "derive", "parsing", "printing", "proc-macro"] }
+trybuild = { version = "1.0.116", features = ["diff"] }

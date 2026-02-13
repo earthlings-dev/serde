@@ -3,7 +3,7 @@
 #![allow(clippy::derive_partial_eq_without_eq)]
 
 use serde_derive::Deserialize;
-use serde_test::{assert_de_tokens, assert_de_tokens_error, Token};
+use serde_test::{Token, assert_de_tokens, assert_de_tokens_error};
 
 mod variant_identifier {
     use super::*;

@@ -1,5 +1,5 @@
 use serde_derive::{Deserialize, Serialize};
-use serde_test::{assert_tokens, Token};
+use serde_test::{Token, assert_tokens};
 
 #[test]
 fn test_raw_identifiers() {

@@ -7,7 +7,7 @@ use crate::internals::ast::{Style, Variant};
 use crate::internals::attr;
 use crate::private;
 use proc_macro2::{Literal, TokenStream};
-use quote::{quote, ToTokens};
+use quote::{ToTokens, quote};
 
 // Generates `Deserialize::deserialize` body for an enum with
 // `serde(field_identifier)` or `serde(variant_identifier)` attribute.

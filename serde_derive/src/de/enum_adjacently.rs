@@ -7,7 +7,7 @@
 
 use crate::de::enum_;
 use crate::de::enum_untagged;
-use crate::de::{field_i, Parameters};
+use crate::de::{Parameters, field_i};
 use crate::fragment::{Fragment, Match};
 use crate::internals::ast::{Style, Variant};
 use crate::internals::attr;

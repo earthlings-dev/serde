@@ -9,7 +9,7 @@ use crate::de::enum_;
 use crate::de::enum_untagged;
 use crate::de::struct_;
 use crate::de::{
-    effective_style, expr_is_missing, field_i, unwrap_to_variant_closure, Parameters, StructForm,
+    Parameters, StructForm, effective_style, expr_is_missing, field_i, unwrap_to_variant_closure,
 };
 use crate::fragment::{Expr, Fragment, Match};
 use crate::internals::ast::{Style, Variant};
