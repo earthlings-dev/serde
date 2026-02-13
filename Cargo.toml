@@ -17,7 +17,7 @@ rust-version = "1.93.0"
 serde = { path = "serde" }
 serde_core = { path = "serde_core" }
 serde_derive = { path = "serde_derive" }
-serde_json = { path = "../json" }
+serde_json = { git = "git@github-takumi-earth:earthlings-dev/json.git" }
 
 [workspace.dependencies]
 automod = { version = "1.0.16" }
