@@ -11,7 +11,7 @@ homepage = "https://serde.rs"
 keywords = ["serde", "serialization", "no_std"]
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/serde-rs/serde"
-rust-version = "1.93.0"
+rust-version = "1.93"
 
 [dev-dependencies]
 serde = { workspace = true }
